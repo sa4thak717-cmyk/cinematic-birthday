@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! | Cinematic Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- EMBEDDED STYLESHEET -->
+    <style>
+        :root {
+            --bg-color: #0b0b0f;
+            --card-bg: rgba(22, 22, 30, 0.75);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent-glow: linear-gradient(135deg, #f43f5e 0%, #a855f7 100%);
+            --accent-solid: #f43f5e;
+            --font-heading: 'Cinzel', serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background Floating Particles */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(244, 63, 94, 0.3);
+            border-radius: 50%;
+            animation: floatUp 8s infinite linear;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Main App Layout */
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            max-height: 850px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Slides System */
+        .slide {
+            position: absolute;
+            width: calc(100% - 40px);
+            max-width: 440px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) scale(0.98);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 32px 24px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .wide-card {
+            padding: 24px 20px;
+        }
+
+        /* Typography */
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #f43f5e;
+            background: rgba(244, 63, 94, 0.1);
+            border-radius: 50px;
+            margin-bottom: 16px;
+        }
+
+        h1, h2 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 { font-size: 2.2rem; }
+        h2 { font-size: 1.8rem; }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 14px 24px;
+            border-radius: 14px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+
+        .primary-btn {
+            background: var(--accent-glow);
+            color: #ffffff;
+            box-shadow: 0 10px 20px rgba(244, 63, 94, 0.3);
+        }
+
+        .primary-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 24px rgba(244, 63, 94, 0.4);
+        }
+
+        .secondary-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+        }
+
+        .secondary-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .accent-btn {
+            background: rgba(168, 85, 247, 0.15);
+            color: #c084fc;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            margin-bottom: 16px;
+        }
+
+        .accent-btn:hover {
+            background: rgba(168, 85, 247, 0.25);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        /* Photo Grid */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .photo-frame {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            aspect-ratio: 4/5;
+            border: 1px solid var(--card-border);
+            background: #111;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .photo-frame:hover img {
+            transform: scale(1.05);
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 8px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            font-size: 0.75rem;
+            color: #e2e8f0;
+        }
+
+        /* Message Box */
+        .message-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-left: 3px solid var(--accent-solid);
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .message-box p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #d1d5db;
+        }
+
+        .finale-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Bottom Nav / WhatsApp Link */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            z-index: 10;
+        }
+
+        .whatsapp-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(37, 211, 102, 0.15);
+            border: 1px solid rgba(37, 211, 102, 0.3);
+            color: #25d366;
+            padding: 8px 16px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-link:hover {
+            background: rgba(37, 211, 102, 0.25);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating background particles container -->
+    <div class="particles-container" id="particlesContainer"></div>
+
+    <!-- Main App Container -->
+    <main class="app-container">
+        
+        <!-- SLIDE 1: Welcome / Intro -->
+        <section class="slide active" id="slide1">
+            <div class="glass-card animate-pop">
+                <span class="badge">A Special Day</span>
+                <h1>Happy Birthday</h1>
+                <p class="subtitle">A cinematic journey created just for you. Tap below to begin the experience.</p>
+                <button class="btn primary-btn" onclick="nextSlide()">
+                    <span>Open Experience</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- SLIDE 2: Photo Gallery / Memories -->
+        <section class="slide" id="slide2">
+            <div class="glass-card wide-card">
+                <h2>Cherished Memories</h2>
+                <p class="subtitle">Moments that sparkle like stars.</p>
+                
+                <div class="photo-grid">
+                    <div class="photo-frame">
+                        <img src="public/ref/photo1.jpg" alt="Memory 1" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60'">
+                        <div class="photo-caption">Golden Hour</div>
+                    </div>
+                    <div class="photo-frame">
+                        <img src="public/ref/photo2.jpg" alt="Memory 2" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=60'">
+                        <div class="photo-caption">Unforgettable</div>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn secondary-btn" onclick="prevSlide()">Back</button>
+                    <button class="btn primary-btn" onclick="nextSlide()">Continue</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: Personal Message -->
+        <section class="slide" id="slide3">
+            <div class="glass-card">
+                <h2>A Note For You</h2>
+                <div class="message-box">
+                    <p>
+                        May this year bring you endless happiness, beautiful adventures, and all the success your heart desires. Thank you for bringing so much light and joy into the world. Have an absolutely wonderful birthday!
+                    </p>
+                </div>
+                
+                <div class="interactive-prompt">
+                    <button class="btn accent-btn" onclick="triggerConfetti(event)">Tap for a Surprise ✨</button>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn secondary-btn" onclick="prevSlide()">Back</button>
+                    <button class="btn primary-btn" onclick="nextSlide()">Final Wish</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 4: Outro / Finale -->
+        <section class="slide" id="slide4">
+            <div class="glass-card animate-pop">
+                <div class="finale-icon">🎂</div>
+                <h2>Make a Wish!</h2>
+                <p class="subtitle">Wishing you the happiest of birthdays today and always.</p>
+                <button class="btn primary-btn" onclick="resetExperience()">Replay Experience</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Menu Bar -->
+    <nav class="bottom-nav">
+        <a href="https://wa.me/?text=Hi!%20I%20loved%20the%20birthday%20website%20template!" target="_blank" class="whatsapp-link" title="Contact on WhatsApp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            <span>Need Help?</span>
+        </a>
+    </nav>
+
+    <!-- EMBEDDED JAVASCRIPT -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        function resetExperience() {
+            currentSlide = 0;
+            showSlide(currentSlide);
+        }
+
+        // Generate Floating Ambient Particles
+        function createParticles() {
+            const container = document.getElementById('particlesContainer');
+            const particleCount = 15;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 6 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.animationDuration = `${Math.random() * 6 + 4}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // Interactive surprise confetti effect simulation
+        function triggerConfetti(e) {
+            const btn = e.target;
+            const originalText = btn.innerText;
+            btn.innerText = "✨ Surprise Unlocked! 🎉";
+            btn.style.background = "rgba(244, 63, 94, 0.25)";
+            
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = "";
+            }, 2500);
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+        });
+    </script>
+</body>
+</html>
